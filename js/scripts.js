@@ -16,7 +16,9 @@ var Accordion = function (selector) {
 		opened = false;
 
 		clicked = function (e) {
-			e.preventDefault();
+			//e.preventDefault();
+			(e.preventDefault) ? e.preventDefault() : e.returnValue = false;
+
 			if (!opened && !animating) {
 				accords.next = that;
 				animateList();
@@ -65,7 +67,12 @@ var Accordion = function (selector) {
 		loadContent = function () {
 			var request;
 
-			request = new XMLHttpRequest();
+			if (window.XMLHttpRequest) {
+				request = new XMLHttpRequest();
+			} else {
+				request = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+			
 			date = new Date();
 
 			request.open("GET", "php/content.php?id=" + encodeURI(index) + "&time=" + date.getTime(), true);

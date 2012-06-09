@@ -21,7 +21,7 @@ body {
 .accordion div {
 	border: 1px solid #222;
 	border-top: 0;
-	padding: 0 10px 3px;
+	padding: 3px 10px 0;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
