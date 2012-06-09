@@ -1,14 +1,20 @@
 var Accordion = function (selector) {
-	var that, OneAccord, init, animateList, parent, headings, accords, animating;
+	var that, animateList, OneAccord, init, headings, accords, animating;
 
 	that = this;
-	parent = document.getElementById(selector);
-	headings = parent.getElementsByTagName("h2");
+	headings = document.getElementById(selector).getElementsByTagName("h2");
 	accords = {};
 	animating = false;
 
+	animateList = function () {
+		accords.current.close();
+		accords.next.open();
+
+		accords.current = accords.next;
+	};
+
 	OneAccord = function (heading, index) {
-		var that, clicked, expand, collapse, updateHeight, loadContent, date, h1, opened, content, oHeight;
+		var that, clicked, expand, collapse, updateHeight, loadContent, init, date, h1, opened, content, oHeight;
 
 		that = this;
 		date = new Date();
@@ -16,8 +22,11 @@ var Accordion = function (selector) {
 		opened = false;
 
 		clicked = function (e) {
-			//e.preventDefault();
-			(e.preventDefault) ? e.preventDefault() : e.returnValue = false;
+			if (e.preventDefault) {
+				e.preventDefault();
+			} else {
+				e.returnValue = false;
+			}
 
 			if (!opened && !animating) {
 				accords.next = that;
@@ -72,7 +81,7 @@ var Accordion = function (selector) {
 			} else {
 				request = new ActiveXObject('Microsoft.XMLHTTP');
 			}
-			
+
 			date = new Date();
 
 			request.open("GET", "php/content.php?id=" + encodeURI(index) + "&time=" + date.getTime(), true);
@@ -104,37 +113,32 @@ var Accordion = function (selector) {
 			opened = true;
 		};
 
-		that.getHeight = function () {
-			return oHeight;
-		};
+		init = function () {
+			content = h1.nextSibling;
+			while (content && 1 !== content.nodeType) {
+				content = content.nextSibling;
+			}
 
-		content = h1.nextSibling;
-		while (content && 1 !== content.nodeType) {
-			content = content.nextSibling;
+			if (h1.addEventListener) {
+				h1.addEventListener("click", clicked, false);
+			} else if (h1.attachEvent) {
+				h1.attachEvent("onclick", clicked);
+			}
+
+			loadContent();
 		}
 
-		if (h1.addEventListener) {
-			h1.addEventListener("click", clicked, false);
-		} else if (h1.attachEvent) {
-			h1.attachEvent("onclick", clicked);
-		}
-
-		loadContent();
+		init();
 
 		return that;
-	};
-
-	animateList = function () {
-		accords.current.close();
-		accords.next.open();
-
-		accords.current = accords.next;
 	};
 
 	init = function () {
 		var i;
 
-		for (i = 0; i < headings.length; i += 1) {
+		i = 0;
+
+		for (i; i < headings.length; i += 1) {
 			accords[i] = new OneAccord(headings[i], i);
 		}
 
@@ -143,6 +147,4 @@ var Accordion = function (selector) {
 	};
 
 	init();
-
-	return that;
 };
