@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>An Accordion</title>
+	<link href="css/styles.css" rel="stylesheet" type="text/css" media="screen">
+</head>
+<body>
+	<div class="wrapper">
+		<h1>JavaScript Accordion</h1>
+
+		<div id="accordion" class="accordion">
+			<h2>Section 1</h2>
+			<div></div>
+
+			<h2>Section 2</h2>
+			<div></div>
+
+			<h2>Section 3</h2>
+			<div></div>
+
+			<h2>Section 4</h2>
+			<div></div>
+		</div>
+	</div>
+</body>
+<script src="js/scripts.js"></script>
+<script type="text/javascript">
+	document.body.onload = function () {
+		var accordions = new Accordion("accordion");
+	}
+</script>
+</html>
+
+<!--
+Assume you don’t have access to JQuery. Take a look at the JQuery UI Accordion widget (http://jqueryui.com/demos/accordion/#default).
+Implement this Accordion widget with your own Javascript code. I am 
+looking for animation when you collapse or expand the section, basic CSS
+styling (visual appearance) and appropriate use of HTML. Populate 
+content of each section in the accordion dynamically using Javascript to
+access a server-side PHP script that provides current date and time.
+-->
